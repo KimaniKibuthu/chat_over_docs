@@ -2,6 +2,8 @@
 
 This is a Streamlit-based chatbot application designed to assist developers in building software by providing step-by-step guides on specific technologies or frameworks. The chatbot leverages an agent to search the internet based on user queries and returns a detailed guide to solve the query.
 
+![Basic Flow](<Mind map (1).png>)
+
 ## Features
 
 1. User-friendly chat interface for developers to ask questions about specific technologies or frameworks.
