@@ -1,5 +1,5 @@
 import streamlit as st
-
+import random
 from dotenv import load_dotenv
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain.agents import AgentExecutor, Tool, create_react_agent
@@ -66,6 +66,19 @@ def main():
     st.title("🧠 Your Docs Helper")
     st.caption("📋 A Helper to aid you with your questions on development")
 
+    spinner_messages = [
+        "Spinning up some code magic...",
+        "Finding answers faster than a speeding bullet...",
+        "Cooking up some code soup...",
+        "Holding on tight, we're about to take off into the coding cosmos...",
+        "Gathering data faster than a caffeinated programmer...",
+        "Revving up the engine... Vroom Vroom!",
+        "Brace yourself, the code storm is coming...",
+        "Warp speed engaged! Hold on to your keyboard!",
+        "Loading... or as we like to call it, the digital equivalent of holding your breath...",
+        "Building castles in the cloud... of code!",
+    ]
+
     if "messages" not in st.session_state:
         st.session_state["messages"] = [
             {"role": "assistant", "content": "How can I help you?"}
@@ -74,8 +87,9 @@ def main():
     if prompt := st.chat_input("How can I help?"):
         st.session_state.messages.append({"role": "user", "content": prompt})
         st.chat_message("user").write(prompt)
-        agent_response = agent_executor.invoke({"input": prompt})
-        agent_output = agent_response["output"]
+        with st.spinner(random.choice(spinner_messages)):
+            agent_response = agent_executor.invoke({"input": prompt})
+            agent_output = agent_response["output"]
         st.session_state.messages.append({"role": "assistant", "content": agent_output})
         st.chat_message("assistant").write(agent_output)
 
