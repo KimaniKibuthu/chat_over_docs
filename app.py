@@ -1,9 +1,11 @@
 import streamlit as st
 import random
+import os
 from dotenv import load_dotenv
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain.agents import AgentExecutor, Tool, create_react_agent
 from langchain_community.llms import HuggingFaceEndpoint
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import PromptTemplate
 from utils import RetryCallbackHandler
 from prompts import prompt_two
@@ -22,6 +24,12 @@ repo_id = "mistralai/Mixtral-8x7B-Instruct-v0.1"
 
 mixtral = HuggingFaceEndpoint(repo_id=repo_id, temperature=0.3)
 
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+gemini = ChatGoogleGenerativeAI(
+    model="gemini-pro",
+    google_api_key=GOOGLE_API_KEY,
+    temperature=0.3,
+)
 # Instantiate error handler
 error_handler = RetryCallbackHandler()
 
@@ -55,6 +63,7 @@ agent_executor = AgentExecutor(
 
 
 def main():
+    load_dotenv()
     st.set_page_config(
         page_title="Price Range Predictor, powered by gemini",
         page_icon="🧠",
